@@ -30,23 +30,33 @@ async def on_ready():
 @bot.command(name='ranking', help='Print ranking of active tournament')
 #@commands.has_role('nonexisting')
 async def ranking(ctx):
-    url = str(MIMIR_URL)+"eid"+str(TOURNEY)
+    mimir_url = str(MIMIR_URL)+"eid"+str(TOURNEY)
     json_body ={ "jsonrpc": "2.0", "method": "getRatingTable", "params": { "eventIdList": [str(TOURNEY)], "orderBy": "rating", "order": "desc", "withPrefinished": "false" }, "id": str(uuid.uuid4()) }
     print(json_body)
-    response = poll_mimir(url, json_body)
+    response = poll_mimir(mimir_url, json_body)
     if response[0] == 200:
        print(response[1]) 
+       emoji = '\N{THUMBS UP SIGN}'
+       await ctx.message.add_reaction(emoji)
     await ctx.send(response)
 
 @bot.command(name='addgame', help='Adds an online game by tenhou url to the active tournament')
 #@commands.has_role('nonexisting')
-async def addgame(ctx, url):
-    url = str(MIMIR_URL)+"eid"+str(TOURNEY)
-    json_body = { "jsonrpc": "2.0", "method": "addOnlineReplay", "params": { "eventId": int(TOURNEY), "link": url }, "id": str(uuid.uuid4()) }
+async def addgame(ctx, game_url):
+    mimir_url = str(MIMIR_URL)+"eid"+str(TOURNEY)
+    json_body = { "jsonrpc": "2.0", "method": "addOnlineReplay", "params": { "eventId": int(TOURNEY), "link": game_url }, "id": str(uuid.uuid4()) }
     print(json_body)
-    response = poll_mimir(url, json_body)
-    if response[0] == 200:
-       print(response[1]) 
-    await ctx.send(response)
+    response = poll_mimir(mimir_url, json_body)
+    if response[0] == 200 and "error" not in response[1]:
+       emoji = '\N{THUMBS UP SIGN}'
+       print(response[1])
+       await ctx.message.add_reaction(emoji)
+    else: 
+       emoji = '\N{CROSS MARK}'
+
+       print(response[1])
+       await ctx.message.add_reaction(emoji)
+       await ctx.send(response[1]['error']['message'])
+       
 
 bot.run(TOKEN)
