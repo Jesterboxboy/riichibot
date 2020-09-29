@@ -46,10 +46,16 @@ async def ranking(ctx):
     print(json_body)
     response = poll_mimir(mimir_url, json_body)
     if response[0] == 200:
-       print(response[1]) 
+       message_content = '```'
+       for rank in response[1]['result']:
+         message_content += str(rank['display_name'])
+         message_content += '\n'
+         message_content += str(rank['rating'])
+         message_content += '\n'
+       message_content += '```' 
        emoji = '\N{THUMBS UP SIGN}'
        await ctx.message.add_reaction(emoji)
-    await ctx.send(response)
+    await ctx.send(message_content)
 
 
 @bot.command(name='addgame', help='Adds an online game by tenhou url to the active tournament')
