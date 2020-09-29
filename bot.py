@@ -8,6 +8,12 @@ import logging
 from discord.ext import commands
 from dotenv import load_dotenv
 
+#load env variables from .env file
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
+GUILD = os.getenv('DISCORD_GUILD')
+MIMIR_URL=os.getenv('MIMIR_URL')
+TOURNEY=os.getenv('TOURNEY')
 
 #configure logging
 logger = logging.getLogger('discord')
@@ -17,12 +23,6 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 
 
-#load env variables from .env file
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
-MIMIR_URL=os.getenv('MIMIR_URL')
-TOURNEY=os.getenv('TOURNEY')
 
 #helper function to talk to mimir rest api
 def poll_mimir(url, json_body):
