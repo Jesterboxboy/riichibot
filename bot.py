@@ -4,10 +4,20 @@ import random
 import requests
 import uuid
 import json
-
+import logging
 from discord.ext import commands
 from dotenv import load_dotenv
 
+
+#configure logging
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+
+
+#load env variables from .env file
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
@@ -27,6 +37,7 @@ bot = commands.Bot(command_prefix='!')
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
+
 @bot.command(name='ranking', help='Print ranking of active tournament')
 #@commands.has_role('nonexisting')
 async def ranking(ctx):
@@ -39,6 +50,7 @@ async def ranking(ctx):
        emoji = '\N{THUMBS UP SIGN}'
        await ctx.message.add_reaction(emoji)
     await ctx.send(response)
+
 
 @bot.command(name='addgame', help='Adds an online game by tenhou url to the active tournament')
 #@commands.has_role('nonexisting')
@@ -57,6 +69,7 @@ async def addgame(ctx, game_url):
        print(response[1])
        await ctx.message.add_reaction(emoji)
        await ctx.send(response[1]['error']['message'])
-       
+    
 
+#bot.add_cog(Tournament)
 bot.run(TOKEN)
