@@ -1,7 +1,6 @@
 from discord.ext import commands
 import uuid
-from cogs.utils import api
-
+from utils import api
 
 class Tournament(commands.Cog):
     def __init__(self, bot):

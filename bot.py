@@ -24,6 +24,7 @@ logger.addHandler(handler)
 bot = commands.Bot(command_prefix='!')
 
 bot.load_extension("cogs.tournament")
+bot.load_extension("cogs.jansou")
 
 #bot.add_cog(Tournament)
 bot.run(TOKEN)
