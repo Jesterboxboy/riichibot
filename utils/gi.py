@@ -131,7 +131,7 @@ class GameInstance(metaclass=Singleton):
         if "https://" in log.lower() or "http://" in log.lower():
             log = log.split("=")[1].split("&")[0]
         xml = requests.get("http://tenhou.net/0/log/?"+log).text
-        print("Prasing http://tenhou.net/0/log/?"+log)
+        print("Parsing http://tenhou.net/0/log/?"+log)
 
         def convertToName(s):
             ret = bytes()

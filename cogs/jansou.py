@@ -11,7 +11,7 @@ class Jansou(commands.Cog):
     @commands.command()
     async def score(self, ctx, log=None, rate="tensan", shugi=None):
         """
-        Score a game log for jansou rules! (Results in cm)
+        Score a game log for jansou rules (Results in units)
         Args:
             log:
                 A full url or just the log id
